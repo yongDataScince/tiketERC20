@@ -24,9 +24,9 @@ interface IERC20 {
         uint256 amount
     ) external returns (bool);
 
-    function burn(uint amount) external returns (bool);
+    function burn(address _addr, uint amount) external returns (bool);
 
-    function mint(uint amount) external returns (bool);
+    function mint(address _addr, uint amount) external returns (bool);
 
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);

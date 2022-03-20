@@ -2,14 +2,15 @@
 pragma solidity ^0.8.0;
 
 import "./IERC20.sol";
+import "./AccessControl.sol";
 
-contract TicketToken is IERC20 {
+contract TicketToken is IERC20, AccessControl {
     mapping(address => uint) private _balances;
     mapping(address => mapping(address => uint)) private _allowed;
 
     string private _name;
     string private _symbol;
-    uint8 private _decimals;
+    uint8 private _decimals = 18;
     uint private _totalSupply;
 
     modifier emptyAddress(address _addr) {
@@ -17,11 +18,9 @@ contract TicketToken is IERC20 {
         _;
     }
 
-    constructor(string memory _nm, string memory _sbl, uint _initialBalace, uint _total) {
+    constructor(string memory _nm, string memory _sbl, uint _total) {
         _name = _nm;
         _symbol = _sbl;
-        _decimals = 18;
-        _balances[msg.sender] = _initialBalace;
         _totalSupply = _total;
     }
 
@@ -64,18 +63,18 @@ contract TicketToken is IERC20 {
         return true;
     }
 
-    function burn(uint _amount) external override returns (bool) {
-        require(_balances[msg.sender] >= _amount, "much to burn");
+    function burn(address _addr, uint _amount) external override canBurn returns (bool) {
+        require(_balances[_addr] >= _amount, "much to burn");
         unchecked {
-            _balances[msg.sender] -= _amount;
+            _balances[_addr] -= _amount;
         }
         _totalSupply -= _amount;
         return true;
     }
 
-    function mint(uint _amount) external override returns (bool) {
+    function mint(address _addr, uint _amount) external override canMint returns (bool) {
         unchecked {
-            _balances[msg.sender] += _amount;
+            _balances[_addr] += _amount;
         }
         _totalSupply += _amount;
         return true;
