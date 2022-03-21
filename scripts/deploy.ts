@@ -1,11 +1,7 @@
 /* eslint-disable node/no-missing-require */
 const { ethers } = require("hardhat");
 
-const {
-  TOKEN_NAME,
-  TOKEN_SYMBOL,
-  TOKEN_TOTAL_SUPPLY,
-} = require("../constants");
+const { TOKEN_NAME, TOKEN_SYMBOL } = require("../constants");
 
 const main = async () => {
   const [deployer] = await ethers.getSigners();
@@ -13,15 +9,10 @@ const main = async () => {
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
   const Token = await ethers.getContractFactory("TicketToken");
-  const token = await Token.deploy(
-    TOKEN_NAME,
-    TOKEN_SYMBOL,
-    ethers.utils.parseEther(String(100)),
-    ethers.utils.parseEther(String(TOKEN_TOTAL_SUPPLY))
-  );
+  const token = await Token.deploy(TOKEN_NAME, TOKEN_SYMBOL, 0);
 
   await token.deployed();
-  console.log("Contract address:", token.address);
+  console.log("Token ${} address:", token.address);
 };
 
 main()

@@ -26,7 +26,8 @@ describe("ERC20", async () => {
   let token: TicketToken;
 
   beforeEach(async () => {
-    [owner, owner2, addr1, addr2, minter, birner, admin] = await ethers.getSigners();
+    [owner, owner2, addr1, addr2, minter, birner, admin] =
+      await ethers.getSigners();
     token = await new TicketToken__factory(owner).deploy(
       TOKEN_NAME,
       TOKEN_SYMBOL,

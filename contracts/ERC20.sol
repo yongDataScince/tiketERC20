@@ -10,7 +10,7 @@ contract TicketToken is IERC20, AccessControl {
 
     string private _name;
     string private _symbol;
-    uint8 private _decimals = 18;
+    uint8 constant private _DECIMALS = 18;
     uint private _totalSupply;
 
     modifier emptyAddress(address _addr) {
@@ -32,8 +32,8 @@ contract TicketToken is IERC20, AccessControl {
         return _symbol;
     }
 
-    function decimals() external override view returns(uint) {
-        return _decimals;
+    function decimals() external override pure returns(uint) {
+        return _DECIMALS;
     }
 
     function totalSupply() external override view returns (uint256) {

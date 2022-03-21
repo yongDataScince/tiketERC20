@@ -1,4 +1,4 @@
-# ERC20 - TiketToken(TKN)
+# ERC20 - TiketTokenV2(TKN2)
 
-- address: 0xD4457bc587cc01fF879772fe8D73f4Aca5bd9550
-- [verified contract on etherscan](https://rinkeby.etherscan.io/token/0xD4457bc587cc01fF879772fe8D73f4Aca5bd9550#writeContract)
+- address: 0xac0186d44846f154DaC7b6141F7ACe92baAE32e4
+- [verified contract on etherscan](https://rinkeby.etherscan.io/address/0xac0186d44846f154DaC7b6141F7ACe92baAE32e4)

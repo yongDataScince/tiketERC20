@@ -15,6 +15,7 @@ require("./tasks/balanceOf.ts");
 require("./tasks/approve.ts");
 require("./tasks/allowance.ts");
 require("./tasks/transferFrom.ts");
+require("./tasks/mint.ts");
 
 module.exports = {
   solidity: {
