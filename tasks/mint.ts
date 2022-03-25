@@ -1,13 +1,29 @@
 import { task } from "hardhat/config";
 
 task("mint")
+  .addParam("tokenaddr")
   .addParam("addr")
   .addParam("amount")
-  .setAction(async ({ addr, amount }: { addr: string; amount: number }) => {
-    const { DEPLOYED_ADDRESS } = require("../constants.ts");
+  .setAction(
+    async ({
+      tokenaddr,
+      addr,
+      amount,
+    }: {
+      tokenaddr: string;
+      addr: string;
+      amount: number;
+    }) => {
+      const { DEPLOYED_ADDRESS } = require("../constants.ts");
 
-    const Token = await ethers.getContractFactory("TicketToken");
-    const token = await Token.attach(DEPLOYED_ADDRESS, ethers.provider);
-
-    await token.mint(addr, ethers.utils.parseEther(String(amount)));
-  });
+      const Token = await ethers.getContractFactory("TicketToken");
+      const token = await Token.attach(tokenaddr, ethers.provider);
+      console.log(await token.symbol());
+      token
+        .mint(addr, ethers.utils.parseEther(String(amount)))
+        .then(async () => {
+          console.log(`${amount} ${await token.symbol()} was minted`);
+        })
+        .catch(() => console.log("Error"));
+    }
+  );

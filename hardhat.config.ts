@@ -16,6 +16,9 @@ require("./tasks/approve.ts");
 require("./tasks/allowance.ts");
 require("./tasks/transferFrom.ts");
 require("./tasks/mint.ts");
+require("./tasks/stake.ts");
+require("./tasks/unstake.ts");
+require("./tasks/claim.ts");
 
 module.exports = {
   solidity: {
@@ -36,6 +39,8 @@ module.exports = {
   networks: {
     rinkeby: {
       url: process.env.RINKEBY_URL || "",
+      gas: 2100000,
+      gasPrice: 8000000000,
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },

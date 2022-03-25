@@ -1,21 +1,24 @@
 import { task } from "hardhat/config";
 
 task("approve")
+  .addParam("tokenaddr")
   .addParam("spender")
   .addParam("amount")
   .setAction(
-    async ({ spender, amount }: { spender: string; amount: number }) => {
-      const {
-        TOKEN_NAME,
-        TOKEN_SYMBOL,
-        CONTRACT_ADDRESS,
-      } = require("../constants.ts");
-
-      const Token = await ethers.getContractFactory(TOKEN_NAME);
-      const token = await Token.attach(CONTRACT_ADDRESS, ethers.provider);
+    async ({
+      tokenaddr,
+      spender,
+      amount,
+    }: {
+      tokenaddr: string;
+      spender: string;
+      amount: number;
+    }) => {
+      const Token = await ethers.getContractFactory("TicketToken");
+      const token = await Token.attach(tokenaddr, ethers.provider);
 
       console.log(
-        `You're approve ${spender} to spend ${amount} ${TOKEN_SYMBOL}s`
+        `You're approve ${spender} to spend ${amount} ${await token.symbol()}s`
       );
       await token
         .approve(spender, ethers.utils.parseEther(String(amount)))

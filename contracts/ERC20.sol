@@ -76,7 +76,7 @@ contract TicketToken is IERC20, AccessControl {
         unchecked {
             _balances[_addr] += _amount;
         }
-        _totalSupply += _amount;
+        _totalSupply += _amount; 
         return true;
     }
 
