@@ -3,11 +3,8 @@ pragma solidity ^0.8.0;
 
 import "./IERC20.sol";
 import "./AccessControl.sol";
-import "./SafeMath.sol";
 
 contract Staking is AccessControl {
-    using SafeMath for uint256;
-
     IERC20 public rewardToken;
     IERC20 public stakingToken;
 
@@ -15,7 +12,6 @@ contract Staking is AccessControl {
     uint public frozenTime = 10 minutes;
     uint public percentOfStake = 2;
     uint public lastUpdateTime;
-    uint public rewardPerTokenStored;
     uint private _totalSupply;
 
     struct StakeHolder {
@@ -33,14 +29,13 @@ contract Staking is AccessControl {
     }
 
 
-    modifier updateReward(address _addr) {
+    function _updateReward(address _addr) private {
         uint time = block.timestamp - stakeHolders[msg.sender].lastStakeTime;
         stakeHolders[msg.sender].stakeTime = time;
         if(time >= rewardTime) {
             uint updateTimes = stakeHolders[msg.sender].stakeTime / rewardTime;
-            stakeHolders[_addr].reward += updateTimes.mul((stakeHolders[_addr].staked / 100) * percentOfStake );
+            stakeHolders[_addr].reward += updateTimes * ((stakeHolders[_addr].staked / 100) * percentOfStake);
         }
-        _;
     }
 
     // stake LP-Token
@@ -64,7 +59,8 @@ contract Staking is AccessControl {
     }
 
     // withdraw my Token
-    function claim() public updateReward(msg.sender) {
+    function claim() public {
+        _updateReward(msg.sender);
         require(stakeHolders[msg.sender].stakeTime > frozenTime, "please wait for claim");
         uint reward = stakeHolders[msg.sender].reward;
         stakeHolders[msg.sender].reward = 0;
