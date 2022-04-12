@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.5.0",
-    "ipfs": "^0.62.2"
+    "ipfs": "^0.62.2",
+    "ipfs-http-client": "^56.0.2"
   }
 }

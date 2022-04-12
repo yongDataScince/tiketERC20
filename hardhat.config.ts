@@ -19,10 +19,24 @@ require("./tasks/mint.ts");
 require("./tasks/stake.ts");
 require("./tasks/unstake.ts");
 require("./tasks/claim.ts");
+require("./tasks/mintNft.ts");
 
 module.exports = {
   solidity: {
-    version: "0.8.0",
+    compilers: [
+      {
+        version: "0.5.7",
+      },
+      {
+        version: "0.8.0",
+      },
+      {
+        version: "0.8.1",
+      },
+      {
+        version: "0.6.12",
+      },
+    ],
     settings: {
       optimizer: {
         enabled: true,

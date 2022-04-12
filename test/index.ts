@@ -271,13 +271,14 @@ describe("ERC721", async () => {
     expect(await NFT.name()).to.equal("Golden Token");
     expect(await NFT.symbol()).to.equal("GTK");
     expect(await NFT.tokenURI(0)).to.equal(`ipfs://golden-tokens/ownerToken`);
+    expect(await NFT.supportsInterface("0x80ac58cd")).to.equal(true);
 
     await NFT.setBaseURI("");
-    expect(await NFT.tokenURI(0)).to.equal("ownerToken");
+    expect(await NFT.tokenURI(0)).to.equal("");
 
     await NFT.setBaseURI("ipfs://goldens/");
     await NFT.mintToken(owner.address, "");
-    await NFT.tokenURI(1);
+    expect(await NFT.tokenURI(1)).to.equal("ipfs://goldens/1");
   });
 
   it("check data of tokens", async () => {
@@ -330,11 +331,11 @@ describe("ERC721", async () => {
     await NFT.mintToken(owner.address, owner.address + "_3"); // id - 5
 
     await NFT.approve(addr1.address, 3);
-    await NFT.connect(addr1).transferFrom(owner.address, addr2.address, 3);
-    expect(await NFT.ownerOf(3)).to.equal(addr2.address);
+    await NFT.connect(addr1).transferFrom(owner.address, addr1.address, 3);
+    expect(await NFT.ownerOf(3)).to.equal(addr1.address);
 
     await expect(
-      NFT.connect(addr1).transferFrom(owner.address, addr2.address, 4)
+      NFT.connect(addr2).transferFrom(owner.address, addr2.address, 3)
     ).to.be.revertedWith("ERC721: you can't spend this");
 
     await expect(NFT.setApprovalForAll(addr1.address, true))
